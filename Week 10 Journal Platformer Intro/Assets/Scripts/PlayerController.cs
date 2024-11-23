@@ -1,14 +1,14 @@
+using System.Net.Sockets;
 using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore;
 
 public class PlayerController : MonoBehaviour
 {
     public Rigidbody2D rb;
     public float speed;
-    float moveHorizontal;
-
-
+    public SpriteRenderer spriteRenderer;
 
 
     public enum FacingDirection
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb.GetComponent<Rigidbody2D>();
+        spriteRenderer.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -36,12 +37,14 @@ public class PlayerController : MonoBehaviour
     private void MovementUpdate(Vector2 playerInput)
     {
         rb.AddForce(playerInput * speed * Time.deltaTime);
+        spriteRenderer.flipX = playerInput.x > 0;
 
     }
 
     public bool IsWalking()
     {
         return false;
+ 
     }
     public bool IsGrounded()
     {
@@ -49,7 +52,17 @@ public class PlayerController : MonoBehaviour
     }
 
     public FacingDirection GetFacingDirection()
-    {
+    {    
+        if(spriteRenderer.flipX == true)
+        {
+            
+            return FacingDirection.right;
+        }
+   
+
         return FacingDirection.left;
+
+
+
     }
 }
