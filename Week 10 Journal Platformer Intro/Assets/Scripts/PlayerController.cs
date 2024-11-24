@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer spriteRenderer;
 
 
+
+
     public enum FacingDirection
     {
         left, right
@@ -39,26 +41,41 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(playerInput * speed * Time.deltaTime);
         spriteRenderer.flipX = playerInput.x > 0;
 
+
     }
 
     public bool IsWalking()
     {
         return false;
- 
+
     }
     public bool IsGrounded()
     {
-        return false;
+        if (Physics2D.Raycast(transform.position, Vector2.down, 1, LayerMask.GetMask("Ground")))
+        {
+            Debug.DrawRay(transform.position, Vector2.down * 1, Color.blue);
+            Debug.Log("Player is on the ground");
+            return true;
+
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, Vector2.down * 1, Color.red);
+            Debug.Log("Player is not on the ground");
+            return false;
+        }
+
+
     }
 
     public FacingDirection GetFacingDirection()
-    {    
-        if(spriteRenderer.flipX == true)
+    {
+        if (spriteRenderer.flipX == true)
         {
-            
+
             return FacingDirection.right;
         }
-   
+
 
         return FacingDirection.left;
 
