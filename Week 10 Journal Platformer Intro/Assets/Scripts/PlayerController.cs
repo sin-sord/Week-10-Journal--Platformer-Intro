@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb.GetComponent<Rigidbody2D>();
-        spriteRenderer.GetComponent<SpriteRenderer>();
+        spriteRenderer.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.AddForce(playerInput * speed * Time.deltaTime);
         spriteRenderer.flipX = playerInput.x > 0;
+        
 
 
     }
