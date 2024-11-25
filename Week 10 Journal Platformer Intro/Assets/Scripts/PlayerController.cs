@@ -9,22 +9,20 @@ public class PlayerController : MonoBehaviour
 {
     public Rigidbody2D rb;
     public float speed;
-    public SpriteRenderer spriteRenderer;
     Vector2 playerMovement;
 
 
     FacingDirection directionOfPlayer = FacingDirection.left;
 
-    public float apexHeight = 3;
-    public float apexTime = 3;
+    public float apexHeight;
+    public float apexTime;
 
     float gravity;
     float jumpVelocity;
     float velocity;
     float currentTime;
-    float initialJumpVelocity;
+    Vector2 position;
 
-    Vector2 initialPosition;
 
 
     public enum FacingDirection
@@ -36,11 +34,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb.GetComponent<Rigidbody2D>();
-        spriteRenderer.GetComponent<SpriteRenderer>().enabled = false;
 
 
         gravity = -2 * apexHeight / Mathf.Pow(apexHeight, 2);
         jumpVelocity = 2 * apexHeight / apexTime;
+        position = transform.position;
+
 
 
     }
@@ -51,7 +50,7 @@ public class PlayerController : MonoBehaviour
         // The input from the player needs to be determined and
         // then passed in the to the MovementUpdate which should
         // manage the actual movement of the character.
-        Vector2 playerInput = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
+        Vector2 playerInput = new Vector2(Input.GetAxisRaw("Horizontal") * speed, gravity);
         MovementUpdate(playerInput);
 
     }
@@ -59,21 +58,21 @@ public class PlayerController : MonoBehaviour
     public void MovementUpdate(Vector2 playerInput)
     {
         playerMovement = playerInput;
-        rb.AddForce(playerInput * speed);
-        spriteRenderer.flipX = playerInput.x > 0;
+        rb.AddForce(playerInput);
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {        
+            currentTime += apexTime * Time.deltaTime;
 
+            velocity = gravity * Mathf.Pow(currentTime, 2) + jumpVelocity;
+            position = 0.5f * gravity * Mathf.Pow(currentTime, 2) * jumpVelocity * currentTime * position;
 
-        velocity = gravity * (currentTime) + initialJumpVelocity;
+            rb.velocity = new Vector2(0, velocity);
 
-        /*        if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    currentTime += Time.deltaTime;
-                    transform.position = transform.position * velocity * gravity;
-
-                }*/
+        }
 
     }
+
 
     public bool IsWalking()
     {
