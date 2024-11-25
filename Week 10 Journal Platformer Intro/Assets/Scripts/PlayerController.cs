@@ -10,8 +10,10 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb;
     public float speed;
     public SpriteRenderer spriteRenderer;
+    Vector2 playerMovement;
 
 
+    FacingDirection directionOfPlayer = FacingDirection.left;
 
     public float apexHeight = 3;
     public float apexTime = 3;
@@ -39,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
         gravity = -2 * apexHeight / Mathf.Pow(apexHeight, 2);
         jumpVelocity = 2 * apexHeight / apexTime;
-        
+
 
     }
 
@@ -56,17 +58,20 @@ public class PlayerController : MonoBehaviour
 
     public void MovementUpdate(Vector2 playerInput)
     {
-        rb.AddForce(playerInput * speed * Time.deltaTime);
+        playerMovement = playerInput;
+        rb.AddForce(playerInput * speed);
         spriteRenderer.flipX = playerInput.x > 0;
+
+
 
         velocity = gravity * (currentTime) + initialJumpVelocity;
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            currentTime += Time.deltaTime;
-            transform.position = transform.position * velocity * gravity;
- 
-        }
+        /*        if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    currentTime += Time.deltaTime;
+                    transform.position = transform.position * velocity * gravity;
+
+                }*/
 
     }
 
@@ -96,16 +101,16 @@ public class PlayerController : MonoBehaviour
 
     public FacingDirection GetFacingDirection()
     {
-        if (spriteRenderer.flipX == true)
+        if (playerMovement.x > 0)
         {
-
-            return FacingDirection.right;
+            directionOfPlayer = FacingDirection.right;
+        }
+        else if (playerMovement.x < 0)
+        {
+            directionOfPlayer = FacingDirection.left;
         }
 
-
-        return FacingDirection.left;
-
-
+        return directionOfPlayer;
 
     }
 }
