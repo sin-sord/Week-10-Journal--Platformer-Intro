@@ -1696,6 +1696,8 @@ MonoBehaviour:
   rb: {fileID: 1433354318}
   speed: 450
   spriteRenderer: {fileID: 1433354316}
+  apexHeight: 3
+  apexTime: 3
 --- !u!4 &1433354315
 Transform:
   m_ObjectHideFlags: 0
@@ -1823,8 +1825,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1835,7 +1837,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &1598075209
 GameObject:
   m_ObjectHideFlags: 0

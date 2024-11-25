@@ -2,6 +2,7 @@ using System.Net.Sockets;
 using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.TextCore;
 
 public class PlayerController : MonoBehaviour
@@ -11,6 +12,17 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer spriteRenderer;
 
 
+
+    public float apexHeight = 3;
+    public float apexTime = 3;
+
+    float gravity;
+    float jumpVelocity;
+    float velocity;
+    float currentTime;
+    float initialJumpVelocity;
+
+    Vector2 initialPosition;
 
 
     public enum FacingDirection
@@ -23,6 +35,12 @@ public class PlayerController : MonoBehaviour
     {
         rb.GetComponent<Rigidbody2D>();
         spriteRenderer.GetComponent<SpriteRenderer>().enabled = false;
+
+
+        gravity = -2 * apexHeight / Mathf.Pow(apexHeight, 2);
+        jumpVelocity = 2 * apexHeight / apexTime;
+        
+
     }
 
     // Update is called once per frame
@@ -36,12 +54,19 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void MovementUpdate(Vector2 playerInput)
+    public void MovementUpdate(Vector2 playerInput)
     {
         rb.AddForce(playerInput * speed * Time.deltaTime);
         spriteRenderer.flipX = playerInput.x > 0;
-        
 
+        velocity = gravity * (currentTime) + initialJumpVelocity;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            currentTime += Time.deltaTime;
+            transform.position = transform.position * velocity * gravity;
+ 
+        }
 
     }
 
