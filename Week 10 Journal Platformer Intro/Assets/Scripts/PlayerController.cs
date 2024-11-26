@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {        
             currentTime += apexTime * Time.deltaTime;
-
+            
             velocity = gravity * Mathf.Pow(currentTime, 2) + jumpVelocity;
             position = 0.5f * gravity * Mathf.Pow(currentTime, 2) * jumpVelocity * currentTime * position;
 
