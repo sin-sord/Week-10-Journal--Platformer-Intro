@@ -20,10 +20,10 @@ public class PlayerController : MonoBehaviour
     float gravity;
     float jumpVelocity;
     float velocity;
-    float currentTime;
+    public float currentTime;
     Vector2 position;
 
-
+    bool isJumping;
 
     public enum FacingDirection
     {
@@ -59,20 +59,31 @@ public class PlayerController : MonoBehaviour
     {
         playerMovement = playerInput;
         rb.AddForce(playerInput);
+        velocity = gravity * Mathf.Pow(currentTime, 2) + jumpVelocity;
+        position = 0.5f * gravity * Mathf.Pow(currentTime, 2) * jumpVelocity * currentTime * position;
 
         if (Input.GetKeyDown(KeyCode.Space))
-        {        
-            currentTime += apexTime * Time.deltaTime;
-            
-            velocity = gravity * Mathf.Pow(currentTime, 2) + jumpVelocity;
-            position = 0.5f * gravity * Mathf.Pow(currentTime, 2) * jumpVelocity * currentTime * position;
+        {
+            isJumping = true;
 
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (isJumping == true)
+        {
             rb.velocity = new Vector2(0, velocity);
+            currentTime += Time.deltaTime;
+        }
+        if (velocity > apexHeight | currentTime > apexTime)
+        {
+            isJumping = false;
+            currentTime = 0;
 
         }
 
     }
-
 
     public bool IsWalking()
     {
