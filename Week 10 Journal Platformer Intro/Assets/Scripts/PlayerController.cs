@@ -64,15 +64,14 @@ public class PlayerController : MonoBehaviour
         MovementUpdate(playerInput);
         playerMovement = playerInput;
 
-        if (IsGrounded())
+        if (IsGrounded() == true)
         {
             coyoteTimeCounter = coyoteTime;
-            print(coyoteTimeCounter);
+            print("coyote jumping");
         }
         else
         {
             coyoteTimeCounter -= Time.deltaTime;
-            print(coyoteTimeCounter);
         }
     }
 
@@ -104,7 +103,7 @@ public class PlayerController : MonoBehaviour
         if (velocity > apexHeight | currentTime > apexTime)
         {
             isJumping = false;
-            rb.velocity = new Vector2(rb.velocity.x, velocity * -deacceleration);
+            rb.velocity = new Vector2(rb.velocity.x, velocity);
             coyoteTimeCounter = 0;
             currentTime = 0;
 
