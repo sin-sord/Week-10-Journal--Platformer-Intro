@@ -1694,11 +1694,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1433354318}
-  speed: 1
-  apexHeight: 5
+  speed: 3
+  apexHeight: 3
   apexTime: 2
   currentTime: 0
-  terminalSpeed: 3
+  terminalSpeed: 5
+  deacceleration: 0
+  deaccelerationTime: 3
 --- !u!4 &1433354315
 Transform:
   m_ObjectHideFlags: 0

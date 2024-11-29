@@ -2,6 +2,7 @@ using System.Net.Sockets;
 using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.Rendering;
 using UnityEngine.TextCore;
 
@@ -26,6 +27,9 @@ public class PlayerController : MonoBehaviour
     bool isJumping;
 
     public float terminalSpeed;
+    Vector2 fallingVelocity = new Vector2(0, 0);
+    public float deacceleration;
+    public float deaccelerationTime = 2;
 
     public enum FacingDirection
     {
@@ -42,7 +46,7 @@ public class PlayerController : MonoBehaviour
         jumpVelocity = 2 * apexHeight / apexTime;
         position = transform.position;
 
-
+        deacceleration = terminalSpeed / deaccelerationTime;
 
     }
 
@@ -54,15 +58,16 @@ public class PlayerController : MonoBehaviour
         // manage the actual movement of the character.
         Vector2 playerInput = new Vector2(Input.GetAxisRaw("Horizontal") * speed, gravity);
         MovementUpdate(playerInput);
-
+        playerMovement = playerInput;
     }
 
     public void MovementUpdate(Vector2 playerInput)
     {
-        playerMovement = playerInput;
-        rb.AddForce(playerInput);
+
+
         velocity = gravity * Mathf.Pow(currentTime, 2) + jumpVelocity;
         position = 0.5f * gravity * Mathf.Pow(currentTime, 2) * jumpVelocity * currentTime * position;
+
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -73,15 +78,20 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        rb.AddForce(playerMovement * speed);
+
+
         if (isJumping == true)
         {
-            rb.velocity = new Vector2(0, position.y + velocity);
+            rb.velocity = new Vector2(playerMovement.x, velocity);
             currentTime += Time.deltaTime;
         }
         if (velocity > apexHeight | currentTime > apexTime)
         {
             isJumping = false;
-            rb.velocity = new Vector2(position.x, position.y - terminalSpeed);
+            rb.velocity = new Vector2(0, velocity * -deacceleration);
+            
             currentTime = 0;
 
         }
