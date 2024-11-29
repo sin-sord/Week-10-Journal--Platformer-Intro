@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     bool isJumping;
 
+    public float terminalSpeed;
+
     public enum FacingDirection
     {
         left, right
@@ -73,12 +75,13 @@ public class PlayerController : MonoBehaviour
     {
         if (isJumping == true)
         {
-            rb.velocity = new Vector2(0, velocity);
+            rb.velocity = new Vector2(0, position.y + velocity);
             currentTime += Time.deltaTime;
         }
         if (velocity > apexHeight | currentTime > apexTime)
         {
             isJumping = false;
+            rb.velocity = new Vector2(position.x, position.y - terminalSpeed);
             currentTime = 0;
 
         }
