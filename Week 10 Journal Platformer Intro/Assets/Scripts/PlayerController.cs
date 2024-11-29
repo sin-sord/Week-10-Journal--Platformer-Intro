@@ -31,6 +31,10 @@ public class PlayerController : MonoBehaviour
     public float deacceleration;
     public float deaccelerationTime = 2;
 
+    public float coyoteTime = 0.5f;
+    float coyoteTimeCounter;
+
+
     public enum FacingDirection
     {
         left, right
@@ -59,6 +63,17 @@ public class PlayerController : MonoBehaviour
         Vector2 playerInput = new Vector2(Input.GetAxisRaw("Horizontal") * speed, gravity);
         MovementUpdate(playerInput);
         playerMovement = playerInput;
+
+        if (IsGrounded())
+        {
+            coyoteTimeCounter = coyoteTime;
+            print(coyoteTimeCounter);
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+            print(coyoteTimeCounter);
+        }
     }
 
     public void MovementUpdate(Vector2 playerInput)
@@ -69,10 +84,9 @@ public class PlayerController : MonoBehaviour
         position = 0.5f * gravity * Mathf.Pow(currentTime, 2) * jumpVelocity * currentTime * position;
 
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (coyoteTimeCounter > 0 && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
-
         }
     }
 
@@ -84,15 +98,16 @@ public class PlayerController : MonoBehaviour
 
         if (isJumping == true)
         {
-            rb.velocity = new Vector2(playerMovement.x, velocity);
+            rb.velocity = new Vector2(rb.velocity.x, velocity);
             currentTime += Time.deltaTime;
         }
         if (velocity > apexHeight | currentTime > apexTime)
         {
             isJumping = false;
-            rb.velocity = new Vector2(0, velocity * -deacceleration);
-            
+            rb.velocity = new Vector2(rb.velocity.x, velocity * -deacceleration);
+            coyoteTimeCounter = 0;
             currentTime = 0;
+
 
         }
 
@@ -118,7 +133,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player is not on the ground");
             return false;
         }
-
 
     }
 
