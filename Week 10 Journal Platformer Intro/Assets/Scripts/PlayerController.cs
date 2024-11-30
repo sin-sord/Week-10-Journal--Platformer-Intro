@@ -67,7 +67,6 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
         {
             coyoteTimeCounter = coyoteTime;
-
         }
         else
         {
