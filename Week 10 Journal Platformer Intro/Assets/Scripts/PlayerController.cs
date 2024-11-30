@@ -27,9 +27,9 @@ public class PlayerController : MonoBehaviour
     bool isJumping;
 
     public float terminalSpeed;
-    Vector2 fallingVelocity = new Vector2(0, 0);
-    public float deacceleration;
-    public float deaccelerationTime = 2;
+    //public float gravityFalling = 5;
+
+
 
     public float coyoteTime = 0.5f;
     float coyoteTimeCounter;
@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour
         jumpVelocity = 2 * apexHeight / apexTime;
         position = transform.position;
 
-        deacceleration = terminalSpeed / deaccelerationTime;
 
     }
 
@@ -64,10 +63,11 @@ public class PlayerController : MonoBehaviour
         MovementUpdate(playerInput);
         playerMovement = playerInput;
 
-        if (IsGrounded() == true)
+
+        if (IsGrounded())
         {
             coyoteTimeCounter = coyoteTime;
-            print("coyote jumping");
+
         }
         else
         {
@@ -100,16 +100,23 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, velocity);
             currentTime += Time.deltaTime;
         }
+
+
         if (velocity > apexHeight | currentTime > apexTime)
         {
             isJumping = false;
-            rb.velocity = new Vector2(rb.velocity.x, velocity);
+
             coyoteTimeCounter = 0;
             currentTime = 0;
-
-
         }
 
+
+        if (rb.velocity.y <= terminalSpeed)
+        {
+
+            rb.velocity = new Vector2(rb.velocity.x, terminalSpeed);
+        }
+        Debug.Log(rb.velocity.y);
     }
 
     public bool IsWalking()
@@ -122,14 +129,14 @@ public class PlayerController : MonoBehaviour
         if (Physics2D.Raycast(transform.position, Vector2.down, 1, LayerMask.GetMask("Ground")))
         {
             Debug.DrawRay(transform.position, Vector2.down * 1, Color.blue);
-            Debug.Log("Player is on the ground");
+            //  Debug.Log("Player is on the ground");
             return true;
 
         }
         else
         {
             Debug.DrawRay(transform.position, Vector2.down * 1, Color.red);
-            Debug.Log("Player is not on the ground");
+            //  Debug.Log("Player is not on the ground");
             return false;
         }
 
