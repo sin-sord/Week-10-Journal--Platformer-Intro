@@ -1695,7 +1695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1433354318}
   speed: 2
-  apexHeight: 5
+  apexHeight: 4
   apexTime: 3
   currentTime: 0
   terminalSpeed: -5
