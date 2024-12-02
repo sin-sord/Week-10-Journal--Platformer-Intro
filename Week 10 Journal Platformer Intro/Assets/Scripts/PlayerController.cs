@@ -36,6 +36,12 @@ public class PlayerController : MonoBehaviour
     float coyoteTimeCounter;
 
 
+    [Header("Dashing")]
+    public float dashingSpeed = 3;
+    public float dashBuildUp = 2;
+    bool isDashing = false;
+
+
     public enum FacingDirection
     {
         left, right
@@ -62,6 +68,7 @@ public class PlayerController : MonoBehaviour
         // then passed in the to the MovementUpdate which should
         // manage the actual movement of the character.
         Vector2 playerInput = new Vector2(Input.GetAxisRaw("Horizontal") * speed, gravity);
+       
         MovementUpdate(playerInput);
         playerMovement = playerInput;
 
@@ -78,11 +85,16 @@ public class PlayerController : MonoBehaviour
         if (isJumping == true)
         {
             currentTime += Time.deltaTime;
+            dashBuildUp += Time.deltaTime;
         }
         if (isJumping == false)
         {
             currentTime = 0;
+            dashBuildUp = 0;
         }
+
+
+
 
     }
 
@@ -100,6 +112,13 @@ public class PlayerController : MonoBehaviour
             isJumping = true;
 
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("is dashing");
+            isDashing = true;
+        }
+
 
     }
 
@@ -125,7 +144,6 @@ public class PlayerController : MonoBehaviour
             currentTime = 0;    //  currentTime resets
         }
 
-
         //  if the y value is less than or equal to terminalSpeed
         if (rb.velocity.y <= terminalSpeed)
         {
@@ -135,6 +153,15 @@ public class PlayerController : MonoBehaviour
         Debug.Log(rb.velocity.y);
 
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+
+
+
+        if(isDashing == true | dashBuildUp == 2)
+        {
+            rb.velocity = new Vector2(rb.velocity.x * dashingSpeed, rb.velocity.y);
+;           isDashing = false;
+            dashBuildUp = 0;
+        }
     }
 
 

@@ -1701,6 +1701,8 @@ MonoBehaviour:
   currentTime: 0
   terminalSpeed: -5
   coyoteTime: 0.5
+  dashingSpeed: 5
+  dashBuildUp: 2
 --- !u!4 &1433354315
 Transform:
   m_ObjectHideFlags: 0
