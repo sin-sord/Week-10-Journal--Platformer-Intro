@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
     Vector2 playerMovement; // players position for movement
     FacingDirection directionOfPlayer = FacingDirection.left;
 
+    float acceleration;
+    float accelerationTime;
+    float maxSpeed;
+
 
     [Header("Gravity and Jumping")]
     public float apexHeight;
@@ -49,6 +53,8 @@ public class PlayerController : MonoBehaviour
         gravity = -2 * apexHeight / Mathf.Pow(apexHeight, 2);
         jumpVelocity = 2 * apexHeight / apexTime;
         position = transform.position;
+
+        acceleration = maxSpeed / accelerationTime;
 
 
     }
@@ -109,7 +115,7 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter = 0;
             currentTime = 0;    //  currentTime resets
         }
-        
+
 
         //  if the y value is less than or equal to terminalSpeed
         if (rb.velocity.y <= terminalSpeed)
@@ -118,7 +124,10 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, terminalSpeed);  //  the rb's y value is the terminal speed, capping the falling speed
         }
         Debug.Log(rb.velocity.y);
+
     }
+
+
 
     public bool IsWalking()
     {
