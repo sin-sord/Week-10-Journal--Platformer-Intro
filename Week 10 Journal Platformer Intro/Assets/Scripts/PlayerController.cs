@@ -13,10 +13,7 @@ public class PlayerController : MonoBehaviour
     public float speed;     //  speed of player
     Vector2 playerMovement; // players position for movement
     FacingDirection directionOfPlayer = FacingDirection.left;
-
-    float acceleration;
-    float accelerationTime;
-    float maxSpeed;
+    public float maxSpeed = 5;
 
 
     [Header("Gravity and Jumping")]
@@ -25,7 +22,7 @@ public class PlayerController : MonoBehaviour
     float gravity;
     float jumpVelocity;
     float velocity;
-    public float currentTime = 0;
+    public float currentTime;
     Vector2 position;
     bool isJumping;
 
@@ -54,7 +51,6 @@ public class PlayerController : MonoBehaviour
         jumpVelocity = 2 * apexHeight / apexTime;
         position = transform.position;
 
-        acceleration = maxSpeed / accelerationTime;
 
 
     }
@@ -78,6 +74,16 @@ public class PlayerController : MonoBehaviour
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
+
+        if (isJumping == true)
+        {
+            currentTime += Time.deltaTime;
+        }
+        if (isJumping == false)
+        {
+            currentTime = 0;
+        }
+
     }
 
     public void MovementUpdate(Vector2 playerInput)
@@ -92,7 +98,9 @@ public class PlayerController : MonoBehaviour
         if (coyoteTimeCounter > 0 && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
+
         }
+
     }
 
     private void FixedUpdate()
@@ -100,11 +108,12 @@ public class PlayerController : MonoBehaviour
         //  the movement of the player
         rb.AddForce(playerMovement * speed);
 
+
         // if isJumping is true then...
         if (isJumping == true)
         {
             rb.velocity = new Vector2(rb.velocity.x, velocity); //  the rigidbody's y value is the velocity
-            currentTime += Time.deltaTime;  //  currentTime increases each frame
+
         }
 
         //  if thhe y value is greater or equal to the apexHeight   or     the currentTime is greater or equal to apexTime...
@@ -125,6 +134,7 @@ public class PlayerController : MonoBehaviour
         }
         Debug.Log(rb.velocity.y);
 
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
     }
 
 
