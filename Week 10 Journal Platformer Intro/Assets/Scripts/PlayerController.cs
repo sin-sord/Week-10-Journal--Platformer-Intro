@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -37,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Dashing")]
-    public float dashingSpeed = 3;
+    public float dashingSpeed = 25;
     public float dashBuildUp = 2;
     bool isDashing = false;
 
@@ -56,7 +57,7 @@ public class PlayerController : MonoBehaviour
         gravity = -2 * apexHeight / Mathf.Pow(apexHeight, 2);
         jumpVelocity = 2 * apexHeight / apexTime;
         position = transform.position;
-
+        isDashing = false;
 
 
     }
@@ -90,7 +91,7 @@ public class PlayerController : MonoBehaviour
         if (isJumping == false)
         {
             currentTime = 0;
-            dashBuildUp = 0;
+            
         }
 
 
@@ -110,10 +111,10 @@ public class PlayerController : MonoBehaviour
         if (coyoteTimeCounter > 0 && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
-
+            dashBuildUp += Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && dashBuildUp >= 2)
         {
             Debug.Log("is dashing");
             isDashing = true;
@@ -127,19 +128,16 @@ public class PlayerController : MonoBehaviour
         //  the movement of the player
         rb.AddForce(playerMovement * speed);
 
-
         // if isJumping is true then...
         if (isJumping == true)
         {
             rb.velocity = new Vector2(rb.velocity.x, velocity); //  the rigidbody's y value is the velocity
-
         }
 
         //  if thhe y value is greater or equal to the apexHeight   or     the currentTime is greater or equal to apexTime...
         if (rb.velocity.y >= apexHeight | currentTime >= apexTime)
         {
             isJumping = false;  //  isJumping = false  turning on gravity
-
             coyoteTimeCounter = 0;
             currentTime = 0;    //  currentTime resets
         }
@@ -155,13 +153,15 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
 
 
-
-        if(isDashing == true | dashBuildUp == 2)
+        //  if isDashing is true then...
+        if(isDashing == true)
         {
-            rb.velocity = new Vector2(rb.velocity.x * dashingSpeed, rb.velocity.y);
-;           isDashing = false;
-            dashBuildUp = 0;
+            rb.velocity = new Vector2(rb.velocity.x * dashingSpeed, rb.velocity.y);  //  add to the X value of the player to dash forward
+;           isDashing = false; //  set isDashing to false
+            dashBuildUp = 0;  // the time to dash is reset
         }
+
+
     }
 
 
