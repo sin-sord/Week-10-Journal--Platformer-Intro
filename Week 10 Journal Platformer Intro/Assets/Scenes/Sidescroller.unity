@@ -1696,12 +1696,12 @@ MonoBehaviour:
   rb: {fileID: 1433354318}
   speed: 2
   maxSpeed: 4
-  apexHeight: 3
+  apexHeight: 2.7
   apexTime: 2
   currentTime: 0
   terminalSpeed: -5
   coyoteTime: 0.5
-  dashingSpeed: 25
+  dashingSpeed: 15
   dashBuildUp: 0
 --- !u!4 &1433354315
 Transform:

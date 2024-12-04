@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         gravity = -2 * apexHeight / Mathf.Pow(apexHeight, 2);
         jumpVelocity = 2 * apexHeight / apexTime;
         position = transform.position;
-        isDashing = false;
+        dashBuildUp = 2;
 
 
     }
@@ -94,9 +94,11 @@ public class PlayerController : MonoBehaviour
             
         }
 
-
-
-
+        dashBuildUp += Time.deltaTime;
+        if(dashBuildUp >= 2)
+        {
+            dashBuildUp = 2;
+        }
     }
 
     public void MovementUpdate(Vector2 playerInput)
@@ -111,10 +113,9 @@ public class PlayerController : MonoBehaviour
         if (coyoteTimeCounter > 0 && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
-            dashBuildUp += Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && dashBuildUp >= 2)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashBuildUp >= 2)
         {
             Debug.Log("is dashing");
             isDashing = true;
@@ -127,6 +128,7 @@ public class PlayerController : MonoBehaviour
     {
         //  the movement of the player
         rb.AddForce(playerMovement * speed);
+
 
         // if isJumping is true then...
         if (isJumping == true)
@@ -156,7 +158,7 @@ public class PlayerController : MonoBehaviour
         //  if isDashing is true then...
         if(isDashing == true)
         {
-            rb.velocity = new Vector2(rb.velocity.x * dashingSpeed, rb.velocity.y);  //  add to the X value of the player to dash forward
+            rb.velocity = new Vector2(rb.velocity.x * speed * dashingSpeed, rb.velocity.y);  //  add to the X value of the player to dash forward
 ;           isDashing = false; //  set isDashing to false
             dashBuildUp = 0;  // the time to dash is reset
         }
