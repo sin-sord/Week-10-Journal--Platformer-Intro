@@ -1,3 +1,4 @@
+using System;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Timers;
@@ -39,9 +40,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("Dashing")]
     public float dashingSpeed = 25;
-    public float dashBuildUp = 2;
+    public float dashBuildUp = 0;
     bool isDashing = false;
 
+
+    [Header("Double Jump")]
+    public float doubleJumpHeight = 2;
+    public float doubleJumpTime = 2.5f;
+    bool canDoubleJump;
 
     public enum FacingDirection
     {
@@ -57,8 +63,8 @@ public class PlayerController : MonoBehaviour
         gravity = -2 * apexHeight / Mathf.Pow(apexHeight, 2);
         jumpVelocity = 2 * apexHeight / apexTime;
         position = transform.position;
-        dashBuildUp = 2;
-
+        dashBuildUp = 0;
+        doubleJumpTime = 0;
 
     }
 
@@ -69,7 +75,7 @@ public class PlayerController : MonoBehaviour
         // then passed in the to the MovementUpdate which should
         // manage the actual movement of the character.
         Vector2 playerInput = new Vector2(Input.GetAxisRaw("Horizontal") * speed, gravity);
-       
+
         MovementUpdate(playerInput);
         playerMovement = playerInput;
 
@@ -86,18 +92,23 @@ public class PlayerController : MonoBehaviour
         if (isJumping == true)
         {
             currentTime += Time.deltaTime;
-            dashBuildUp += Time.deltaTime;
         }
-        if (isJumping == false)
+        else if (isJumping == false)
         {
             currentTime = 0;
-            
         }
 
+        
         dashBuildUp += Time.deltaTime;
-        if(dashBuildUp >= 2)
+        if (dashBuildUp >= 2)
         {
-            dashBuildUp = 2;
+            dashBuildUp = 2.3f;
+        }
+
+
+        if (IsGrounded())
+        {
+            doubleJumpTime = 2.5f;
         }
     }
 
@@ -113,12 +124,20 @@ public class PlayerController : MonoBehaviour
         if (coyoteTimeCounter > 0 && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
+
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashBuildUp >= 2)
+        // if the spacebar is pressed and the doubleJumpTime is 2.5...
+        if (Input.GetKeyDown(KeyCode.Space) && doubleJumpTime == 2.5f)
         {
-            Debug.Log("is dashing");
-            isDashing = true;
+            DoubleJump();  //  run the Double Jump method
+
+        }
+
+        // if the spacebar is pressed and the dashBuildUp is 2.3...
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashBuildUp == 2.3f)
+        {
+            Dashing();  //  run the Dashing method
         }
 
 
@@ -128,6 +147,7 @@ public class PlayerController : MonoBehaviour
     {
         //  the movement of the player
         rb.AddForce(playerMovement * speed);
+
 
 
         // if isJumping is true then...
@@ -142,6 +162,7 @@ public class PlayerController : MonoBehaviour
             isJumping = false;  //  isJumping = false  turning on gravity
             coyoteTimeCounter = 0;
             currentTime = 0;    //  currentTime resets
+
         }
 
         //  if the y value is less than or equal to terminalSpeed
@@ -154,16 +175,40 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
 
+    }
 
-        //  if isDashing is true then...
-        if(isDashing == true)
+
+    void Dashing()
+    {
+        //  if dashBuildUp is 2.3f...
+        if (dashBuildUp == 2.3f)
         {
-            rb.velocity = new Vector2(rb.velocity.x * speed * dashingSpeed, rb.velocity.y);  //  add to the X value of the player to dash forward
-;           isDashing = false; //  set isDashing to false
+            isDashing = true;
+        }
+        //  if isDashing is true...
+        if (isDashing == true)
+        {
+            rb.velocity = new Vector2(rb.velocity.x * dashingSpeed, rb.velocity.y);  //  add to the X value of the player to dash forward
+            isDashing = false; //  set isDashing to false
             dashBuildUp = 0;  // the time to dash is reset
         }
+    }
 
+    void DoubleJump()
+    {
+        //  if doubleJumpTime is 2.5f...
+        if (doubleJumpTime == 2.5f)
+        {
+            canDoubleJump = true;
+        }
 
+        //  if canDoubleJump is true...
+        if(canDoubleJump == true)
+        {
+            rb.velocity = new Vector2(rb.velocity.x,doubleJumpHeight); //  the height of the player is increased with the double jump height
+            canDoubleJump = false;  //  canDoubleJump is now false
+            doubleJumpTime = 0;  //  the time to double jump is reset until the player touches the floor
+        }
     }
 
 
@@ -173,6 +218,8 @@ public class PlayerController : MonoBehaviour
         return false;
 
     }
+
+
     public bool IsGrounded()
     {
         if (Physics2D.Raycast(transform.position, Vector2.down, 1, LayerMask.GetMask("Ground")))
