@@ -46,8 +46,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Double Jump")]
     public float doubleJumpHeight = 2;
-    public float doubleJumpTime = 2.5f;
-    bool canDoubleJump;
+    public bool canDoubleJump;
 
     public enum FacingDirection
     {
@@ -64,7 +63,6 @@ public class PlayerController : MonoBehaviour
         jumpVelocity = 2 * apexHeight / apexTime;
         position = transform.position;
         dashBuildUp = 0;
-        doubleJumpTime = 0;
 
     }
 
@@ -108,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
         if (IsGrounded())
         {
-            doubleJumpTime = 2.5f;
+            canDoubleJump = true;
         }
     }
 
@@ -128,7 +126,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // if the spacebar is pressed and the doubleJumpTime is 2.5...
-        if (Input.GetKeyDown(KeyCode.Space) && doubleJumpTime == 2.5f)
+        if (Input.GetKeyDown(KeyCode.Space) && canDoubleJump == true)
         {
             DoubleJump();  //  run the Double Jump method
 
@@ -196,18 +194,11 @@ public class PlayerController : MonoBehaviour
 
     void DoubleJump()
     {
-        //  if doubleJumpTime is 2.5f...
-        if (doubleJumpTime == 2.5f)
-        {
-            canDoubleJump = true;
-        }
-
         //  if canDoubleJump is true...
         if(canDoubleJump == true)
         {
             rb.velocity = new Vector2(rb.velocity.x,doubleJumpHeight); //  the height of the player is increased with the double jump height
             canDoubleJump = false;  //  canDoubleJump is now false
-            doubleJumpTime = 0;  //  the time to double jump is reset until the player touches the floor
         }
     }
 
