@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     public float doubleJumpHeight = 2;
     public bool canDoubleJump;
 
+
     public enum FacingDirection
     {
         left, right
@@ -130,6 +131,13 @@ public class PlayerController : MonoBehaviour
         {
             DoubleJump();  //  run the Double Jump method
 
+        }
+
+
+        if(Input.GetKeyUp(KeyCode.Space) && rb.velocity.y < apexHeight)
+        {
+            isJumping = false;
+            gravity = -4 * apexHeight / Mathf.Pow(apexHeight, 2);
         }
 
         // if the spacebar is pressed and the dashBuildUp is 2.3...
