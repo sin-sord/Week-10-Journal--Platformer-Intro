@@ -1704,7 +1704,7 @@ MonoBehaviour:
   dashingSpeed: 25
   dashBuildUp: 0
   doubleJumpHeight: 3
-  doubleJumpTime: 0
+  canDoubleJump: 0
 --- !u!4 &1433354315
 Transform:
   m_ObjectHideFlags: 0
