@@ -10,6 +10,9 @@ using UnityEngine.TextCore;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] CameracCntroler2D followCamera;
+    bool didShake = false;
+
     [Header("Rigidboy, speed, and direction")]
     public Rigidbody2D rb;  //  rigidbody
     public float speed;     //  speed of player
@@ -41,7 +44,7 @@ public class PlayerController : MonoBehaviour
     [Header("Dashing")]
     public float dashingSpeed = 25;
     public float dashBuildUp = 0;
-    bool isDashing = false;
+    bool isDashing;
 
 
     [Header("Double Jump")]
@@ -109,6 +112,12 @@ public class PlayerController : MonoBehaviour
         {
             canDoubleJump = true;
         }
+
+/*        if (IsGrounded() && !didShake)
+        {
+            followCamera.Shake(4, 2);
+            didShake = true;
+        }*/
     }
 
     public void MovementUpdate(Vector2 playerInput)
@@ -181,6 +190,8 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
 
+
+
     }
 
 
@@ -234,6 +245,8 @@ public class PlayerController : MonoBehaviour
             //  Debug.Log("Player is not on the ground");
             return false;
         }
+
+
 
     }
 

@@ -133,6 +133,8 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -208,12 +210,72 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -4.82, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae5876f12b73311438e3ace204121492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1433354315}
+  tilemap: {fileID: 1054579208}
+  smothing: 5
+  offset: {x: 0, y: 0}
 --- !u!1 &874392357
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,7 +391,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1419490948}
@@ -1500,68 +1562,68 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1054579206}
     m_ColliderPaths:
-    - - X: -52500000
-        Y: 45415620
-      - X: -60000000
-        Y: 45415620
-      - X: -60000000
-        Y: -7084377
-      - X: -90000000
-        Y: -7084377
-      - X: -90000000
-        Y: -15053127
-      - X: -60000000
-        Y: -15053127
-      - X: -60000000
-        Y: -37084376
+    - - X: -70000000
+        Y: 60554164
+      - X: -80000000
+        Y: 60554164
+      - X: -80000000
+        Y: -9445837
       - X: -120000000
-        Y: -37084376
+        Y: -9445837
       - X: -120000000
-        Y: -52084380
+        Y: -20070836
+      - X: -80000000
+        Y: -20070836
+      - X: -80000000
+        Y: -49445836
+      - X: -160000000
+        Y: -49445836
+      - X: -160000000
+        Y: -69445832
+      - X: -200000000
+        Y: -69445832
+      - X: -200000000
+        Y: -49445836
+      - X: -300000000
+        Y: -49445836
+      - X: -300000000
+        Y: 60554164
+      - X: -310000000
+        Y: 60554164
+      - X: -310000000
+        Y: -80070840
+      - X: -70000000
+        Y: -80070840
+    - - X: -120000000
+        Y: 30554164
       - X: -150000000
-        Y: -52084380
+        Y: 30554164
       - X: -150000000
-        Y: -37084376
-      - X: -225000000
-        Y: -37084376
-      - X: -225000000
-        Y: 45415620
-      - X: -232500000
-        Y: 45415620
-      - X: -232500000
-        Y: -60053128
-      - X: -52500000
-        Y: -60053128
-    - - X: -90000000
-        Y: 22915624
-      - X: -112500000
-        Y: 22915624
-      - X: -112500000
-        Y: 14946873
-      - X: -90000000
-        Y: 14946873
+        Y: 19929164
+      - X: -120000000
+        Y: 19929164
   m_CompositePaths:
     m_Paths:
-    - - {x: -5.250029, y: -6.005313}
-      - {x: -5.250029, y: 4.541562}
-      - {x: -6, y: 4.541533}
-      - {x: -6.0000296, y: -0.7084377}
-      - {x: -9, y: -0.708467}
-      - {x: -8.99997, y: -1.5053127}
-      - {x: -6, y: -1.5053421}
-      - {x: -6.0000296, y: -3.7084377}
-      - {x: -12, y: -3.7084668}
-      - {x: -12.00003, y: -5.208438}
-      - {x: -15, y: -5.208409}
-      - {x: -15.000029, y: -3.7084377}
-      - {x: -22.5, y: -3.708408}
-      - {x: -22.500029, y: 4.541562}
-      - {x: -23.25, y: 4.541533}
-      - {x: -23.249971, y: -6.005313}
-    - - {x: -9.00003, y: 1.4946873}
-      - {x: -9.00003, y: 2.2915623}
-      - {x: -11.25, y: 2.2915332}
-      - {x: -11.24997, y: 1.4946873}
+    - - {x: -7.0000296, y: -8.007084}
+      - {x: -7.0000296, y: 6.0554166}
+      - {x: -8, y: 6.0553875}
+      - {x: -8.00003, y: -0.9445837}
+      - {x: -12, y: -0.94461304}
+      - {x: -11.99997, y: -2.0070837}
+      - {x: -8, y: -2.007113}
+      - {x: -8.00003, y: -4.944584}
+      - {x: -16, y: -4.944613}
+      - {x: -16.000029, y: -6.9445834}
+      - {x: -20, y: -6.944554}
+      - {x: -20.000029, y: -4.944584}
+      - {x: -30, y: -4.9445543}
+      - {x: -30.000029, y: 6.0554166}
+      - {x: -31, y: 6.0553875}
+      - {x: -30.999971, y: -8.007084}
+    - - {x: -12.00003, y: 1.9929165}
+      - {x: -12.00003, y: 3.0554163}
+      - {x: -15, y: 3.0553873}
+      - {x: -14.999971, y: 1.9929165}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -1696,14 +1758,14 @@ MonoBehaviour:
   rb: {fileID: 1433354318}
   speed: 2
   maxSpeed: 4
-  apexHeight: 2.7
-  apexTime: 2
+  apexHeight: 3.7
+  apexTime: 2.5
   currentTime: 0
   terminalSpeed: -5
   coyoteTime: 0.5
-  dashingSpeed: 25
+  dashingSpeed: 30
   dashBuildUp: 0
-  doubleJumpHeight: 3
+  doubleJumpHeight: 4
   canDoubleJump: 0
 --- !u!4 &1433354315
 Transform:
@@ -1921,7 +1983,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1419490948}
