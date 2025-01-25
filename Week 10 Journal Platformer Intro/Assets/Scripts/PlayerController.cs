@@ -10,6 +10,10 @@ using UnityEngine.TextCore;
 
 public class PlayerController : MonoBehaviour
 {
+
+    [SerializeField] CameracCntroler2D followCamera;
+    bool didShake = false;
+
     [Header("Rigidboy, speed, and direction")]
     public Rigidbody2D rb;  //  rigidbody
     public float speed;     //  speed of player
@@ -41,7 +45,7 @@ public class PlayerController : MonoBehaviour
     [Header("Dashing")]
     public float dashingSpeed = 25;
     public float dashBuildUp = 0;
-    bool isDashing = false;
+    bool isDashing;
 
 
     [Header("Double Jump")]
@@ -97,7 +101,7 @@ public class PlayerController : MonoBehaviour
             currentTime = 0;
         }
 
-        
+
         dashBuildUp += Time.deltaTime;
         if (dashBuildUp >= 2)
         {
@@ -109,6 +113,9 @@ public class PlayerController : MonoBehaviour
         {
             canDoubleJump = true;
         }
+
+
+
     }
 
     public void MovementUpdate(Vector2 playerInput)
@@ -134,10 +141,9 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if(Input.GetKeyUp(KeyCode.Space) && rb.velocity.y < apexHeight)
+        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y < apexHeight)
         {
             isJumping = false;
-            gravity = -4 * apexHeight / Mathf.Pow(apexHeight, 2);
         }
 
         // if the spacebar is pressed and the dashBuildUp is 2.3...
@@ -154,8 +160,6 @@ public class PlayerController : MonoBehaviour
         //  the movement of the player
         rb.AddForce(playerMovement * speed);
 
-
-
         // if isJumping is true then...
         if (isJumping == true)
         {
@@ -168,7 +172,6 @@ public class PlayerController : MonoBehaviour
             isJumping = false;  //  isJumping = false  turning on gravity
             coyoteTimeCounter = 0;
             currentTime = 0;    //  currentTime resets
-
         }
 
         //  if the y value is less than or equal to terminalSpeed
@@ -180,6 +183,17 @@ public class PlayerController : MonoBehaviour
         Debug.Log(rb.velocity.y);
 
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+
+        if (IsGrounded() && !didShake)
+        {
+            followCamera.Shake(4, 1f);
+            didShake = true;
+        }
+
+        if (!IsGrounded())
+        {
+            didShake = false;
+        }
 
     }
 
@@ -203,9 +217,9 @@ public class PlayerController : MonoBehaviour
     void DoubleJump()
     {
         //  if canDoubleJump is true...
-        if(canDoubleJump == true)
+        if (canDoubleJump == true)
         {
-            rb.velocity = new Vector2(rb.velocity.x,doubleJumpHeight); //  the height of the player is increased with the double jump height
+            rb.velocity = new Vector2(rb.velocity.x, doubleJumpHeight); //  the height of the player is increased with the double jump height
             canDoubleJump = false;  //  canDoubleJump is now false
         }
     }
@@ -221,6 +235,7 @@ public class PlayerController : MonoBehaviour
 
     public bool IsGrounded()
     {
+
         if (Physics2D.Raycast(transform.position, Vector2.down, 1, LayerMask.GetMask("Ground")))
         {
             Debug.DrawRay(transform.position, Vector2.down * 1, Color.blue);
@@ -234,6 +249,8 @@ public class PlayerController : MonoBehaviour
             //  Debug.Log("Player is not on the ground");
             return false;
         }
+
+
 
     }
 
